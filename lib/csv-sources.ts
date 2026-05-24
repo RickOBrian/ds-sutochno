@@ -28,3 +28,6 @@ export const SHEET_HTML_URLS: Record<Platform, string> = {
 };
 
 export const PLATFORMS: Platform[] = ["ios", "android", "web"];
+
+export const ROADMAP_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3GR20_iq_4v7FJQMtsQnjjTofwB2GydSipCX6xhSNGieaWpuznQxonVlgyVyW7XJBViVhm58dM_t_/pub?gid=0&single=true&output=csv";

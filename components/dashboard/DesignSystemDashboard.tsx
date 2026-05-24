@@ -2,15 +2,18 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Platform } from "@/lib/csv-sources";
-import { PLATFORMS } from "@/lib/csv-sources";
+import { PLATFORMS, ROADMAP_CSV_URL } from "@/lib/csv-sources";
 import { fetchPlatformData } from "@/lib/fetch-platform-data";
 import { calculatePlatformMetrics } from "@/lib/metrics";
+import { fetchAndParseRoadmapCsv } from "@/lib/parse-roadmap-csv";
 import type { ComponentRow } from "@/types/component-row";
+import type { RoadmapTask } from "@/types/roadmap-task";
 import { BentoHeader } from "./BentoHeader";
 import { BentoMetrics } from "./BentoMetrics";
 import { BentoSkeleton } from "./BentoSkeleton";
 import { BentoTableWidget } from "./BentoTableWidget";
 import { DashboardToolbar } from "./DashboardToolbar";
+import { TimelineWidget } from "./TimelineWidget";
 
 type PlatformData = Record<Platform, ComponentRow[]>;
 type LoadState = "loading" | "ready" | "error";
@@ -28,6 +31,7 @@ function AmbientBackground() {
 export function DesignSystemDashboard() {
   const [activePlatform, setActivePlatform] = useState<Platform>("ios");
   const [data, setData] = useState<PlatformData>({ ios: [], android: [], web: [] });
+  const [roadmapTasks, setRoadmapTasks] = useState<RoadmapTask[]>([]);
   const [loadState, setLoadState] = useState<LoadState>("loading");
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,14 +47,18 @@ export function DesignSystemDashboard() {
     setError(null);
 
     try {
-      const results = await Promise.all(
-        PLATFORMS.map(async (platform) => {
-          const rows = await fetchPlatformData(platform);
-          return [platform, rows] as const;
-        }),
-      );
+      const [platformResults, roadmap] = await Promise.all([
+        Promise.all(
+          PLATFORMS.map(async (platform) => {
+            const rows = await fetchPlatformData(platform);
+            return [platform, rows] as const;
+          }),
+        ),
+        fetchAndParseRoadmapCsv(ROADMAP_CSV_URL),
+      ]);
 
-      setData(Object.fromEntries(results) as PlatformData);
+      setData(Object.fromEntries(platformResults) as PlatformData);
+      setRoadmapTasks(roadmap);
       setLoadState("ready");
     } catch (err) {
       setLoadState("error");
@@ -112,6 +120,7 @@ export function DesignSystemDashboard() {
           <div className="flex min-w-0 flex-col gap-4 sm:gap-5 md:gap-6">
             <BentoMetrics metrics={metrics} animationKey={activePlatform} />
             <BentoTableWidget rows={activeRows} isPlatformEmpty={activeRows.length === 0} />
+            <TimelineWidget tasks={roadmapTasks} />
           </div>
         )}
       </div>
