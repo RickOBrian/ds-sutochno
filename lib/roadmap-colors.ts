@@ -9,45 +9,51 @@ export interface RoadmapBarStyle {
 const DEFAULT_STYLE: RoadmapBarStyle = {
   categoryKey: "default",
   categoryLabel: "Другое",
-  barClass: "bg-zinc-100/90 ring-1 ring-zinc-200/60",
-  textClass: "text-zinc-700",
-  legendClass: "bg-zinc-200 ring-1 ring-zinc-200/80",
+  barClass:
+    "bg-zinc-100/90 ring-1 ring-zinc-200/60 dark:bg-zinc-500/20 dark:ring-zinc-500/30",
+  textClass: "text-zinc-700 dark:text-zinc-200",
+  legendClass: "bg-zinc-200 ring-1 ring-zinc-200/80 dark:bg-zinc-500/40",
 };
 
 const TASK_TYPE_STYLES: Record<string, RoadmapBarStyle> = {
   мобильные: {
     categoryKey: "мобильные",
     categoryLabel: "Мобильные",
-    barClass: "bg-violet-100/90 ring-1 ring-violet-200/50",
-    textClass: "text-violet-800",
+    barClass:
+      "bg-violet-100/90 ring-1 ring-violet-200/50 dark:bg-violet-500/25 dark:ring-violet-400/30",
+    textClass: "text-violet-800 dark:text-violet-100",
     legendClass: "bg-violet-100 ring-1 ring-violet-200/60",
   },
   токены: {
     categoryKey: "токены",
     categoryLabel: "Токены",
-    barClass: "bg-amber-100/90 ring-1 ring-amber-200/50",
-    textClass: "text-amber-900",
+    barClass:
+      "bg-amber-100/90 ring-1 ring-amber-200/50 dark:bg-amber-500/25 dark:ring-amber-400/30",
+    textClass: "text-amber-900 dark:text-amber-100",
     legendClass: "bg-amber-100 ring-1 ring-amber-200/60",
   },
   процессы: {
     categoryKey: "процессы",
     categoryLabel: "Процессы",
-    barClass: "bg-zinc-100/90 ring-1 ring-zinc-200/60",
-    textClass: "text-zinc-600",
-    legendClass: "bg-zinc-100 ring-1 ring-zinc-200/80",
+    barClass:
+      "bg-zinc-100/90 ring-1 ring-zinc-200/60 dark:bg-zinc-500/20 dark:ring-zinc-500/30",
+    textClass: "text-zinc-600 dark:text-zinc-200",
+    legendClass: "bg-zinc-100 ring-1 ring-zinc-200/80 dark:bg-zinc-500/40",
   },
   веб: {
     categoryKey: "веб",
     categoryLabel: "Веб",
-    barClass: "bg-sky-100/90 ring-1 ring-sky-200/50",
-    textClass: "text-sky-800",
+    barClass:
+      "bg-sky-100/90 ring-1 ring-sky-200/50 dark:bg-sky-500/25 dark:ring-sky-400/30",
+    textClass: "text-sky-800 dark:text-sky-100",
     legendClass: "bg-sky-100 ring-1 ring-sky-200/60",
   },
   web: {
     categoryKey: "веб",
     categoryLabel: "Веб",
-    barClass: "bg-sky-100/90 ring-1 ring-sky-200/50",
-    textClass: "text-sky-800",
+    barClass:
+      "bg-sky-100/90 ring-1 ring-sky-200/50 dark:bg-sky-500/25 dark:ring-sky-400/30",
+    textClass: "text-sky-800 dark:text-sky-100",
     legendClass: "bg-sky-100 ring-1 ring-sky-200/60",
   },
 };

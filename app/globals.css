@@ -1,17 +1,80 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --canvas: #f4f4f5;
   --surface: #ffffff;
+  --surface-muted: #f4f4f5;
   --ink: #0a0a0a;
   --ink-muted: #71717a;
   --ink-faint: #a1a1aa;
+  --border-subtle: rgba(228, 228, 231, 0.8);
+  --border-strong: rgba(212, 212, 216, 0.9);
   --lime: #d4f54a;
   --lime-deep: #b8e030;
   --lime-glow: rgba(212, 245, 74, 0.35);
   --radius-bento: 2rem;
   --shadow-float: 0 8px 40px rgba(0, 0, 0, 0.04);
   --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.07);
+  --hero-bg: #09090b;
+  --hero-fg: #ffffff;
+  --hero-muted: #a1a1aa;
+  --hero-icon-bg: rgba(255, 255, 255, 0.1);
+  --hero-icon-fg: rgba(255, 255, 255, 0.85);
+  --hero-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+  --hero-ring: rgba(255, 255, 255, 0.06);
+  --btn-primary-bg: #18181b;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-hover: #27272a;
+  --row-hover: rgba(244, 244, 245, 0.4);
+  --scrollbar-thumb: #d4d4d8;
+  --ambient-a: rgba(212, 245, 74, 0.35);
+  --ambient-b: rgba(228, 228, 231, 0.5);
+  --ambient-c: rgba(255, 255, 255, 0.6);
+  --pill-active-bg: #18181b;
+  --pill-active-fg: #ffffff;
+  --timeline-scale-bg: #ffffff;
+  --timeline-grid: #f1f5f9;
+  --timeline-border: rgba(241, 245, 249, 0.8);
+  --toggle-thumb: var(--surface);
+  --toggle-thumb-fg: var(--ink);
+}
+
+.dark {
+  --canvas: #09090b;
+  --surface: #18181b;
+  --surface-muted: #27272a;
+  --ink: #fafafa;
+  --ink-muted: #a1a1aa;
+  --ink-faint: #71717a;
+  --border-subtle: rgba(63, 63, 70, 0.9);
+  --border-strong: rgba(82, 82, 91, 0.95);
+  --lime-glow: rgba(212, 245, 74, 0.12);
+  --shadow-float: 0 8px 40px rgba(0, 0, 0, 0.45);
+  --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.55);
+  --hero-bg: #ffffff;
+  --hero-fg: #09090b;
+  --hero-muted: #71717a;
+  --hero-icon-bg: rgba(24, 24, 27, 0.07);
+  --hero-icon-fg: #3f3f46;
+  --hero-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  --hero-ring: rgba(228, 228, 231, 0.9);
+  --btn-primary-bg: #fafafa;
+  --btn-primary-fg: #18181b;
+  --btn-primary-hover: #e4e4e7;
+  --row-hover: rgba(39, 39, 42, 0.65);
+  --scrollbar-thumb: #52525b;
+  --ambient-a: rgba(212, 245, 74, 0.08);
+  --ambient-b: rgba(39, 39, 42, 0.55);
+  --ambient-c: rgba(24, 24, 27, 0.85);
+  --pill-active-bg: #fafafa;
+  --pill-active-fg: #18181b;
+  --timeline-scale-bg: #18181b;
+  --timeline-grid: #27272a;
+  --timeline-border: rgba(39, 39, 42, 0.95);
+  --toggle-thumb: #ffffff;
+  --toggle-thumb-fg: #18181b;
 }
 
 @theme inline {
@@ -25,6 +88,11 @@
 
 html {
   overflow-x: clip;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
@@ -34,11 +102,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
 }
 
 .timeline-scroll {
   scrollbar-width: thin;
-  scrollbar-color: #d4d4d8 transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 .timeline-scroll::-webkit-scrollbar {
@@ -46,7 +117,7 @@ body {
 }
 
 .timeline-scroll::-webkit-scrollbar-thumb {
-  background-color: #d4d4d8;
+  background-color: var(--scrollbar-thumb);
   border-radius: 9999px;
 }
 
@@ -57,7 +128,7 @@ body {
 .timeline-scroll-y {
   overflow-x: hidden;
   scrollbar-width: thin;
-  scrollbar-color: #d4d4d8 transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 .timeline-scroll-y::-webkit-scrollbar {
@@ -65,7 +136,7 @@ body {
 }
 
 .timeline-scroll-y::-webkit-scrollbar-thumb {
-  background-color: #d4d4d8;
+  background-color: var(--scrollbar-thumb);
   border-radius: 9999px;
 }
 

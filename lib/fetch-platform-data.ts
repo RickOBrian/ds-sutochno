@@ -22,6 +22,7 @@ function mergeRows(csvRows: ComponentRow[], htmlRows: ComponentRow[]): Component
       componentNameUrl: htmlRow.componentNameUrl,
       groomingThreadUrl: htmlRow.groomingThreadUrl,
       taskLinkUrl: htmlRow.taskLinkUrl,
+      groomingColor: htmlRow.groomingColor ?? row.groomingColor,
     };
   });
 }

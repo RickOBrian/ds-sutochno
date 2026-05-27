@@ -19,8 +19,22 @@ export interface PlatformMetrics {
   statuses: StatusMetric[];
 }
 
+/** Первый цвет из таблицы для каждого статуса (по платформе) */
+function buildStatusColorMap(rows: ComponentRow[]): Map<string, string> {
+  const map = new Map<string, string>();
+
+  for (const row of rows) {
+    if (!row.groomingColor?.trim()) continue;
+    const key = normalizeStatusKey(row.grooming);
+    if (!map.has(key)) map.set(key, row.groomingColor.trim());
+  }
+
+  return map;
+}
+
 /** Статусы только из данных таблицы — без заготовок из конфига */
 export function calculatePlatformMetrics(rows: ComponentRow[]): PlatformMetrics {
+  const statusColors = buildStatusColorMap(rows);
   const counts = new Map<string, { count: number; label: string }>();
 
   for (const row of rows) {
@@ -42,7 +56,7 @@ export function calculatePlatformMetrics(rows: ComponentRow[]): PlatformMetrics 
 
   const statuses: StatusMetric[] = [...counts.entries()]
     .map(([key, { count, label }]) => {
-      const theme = getStatusTheme(key, label);
+      const theme = getStatusTheme(key, label, statusColors.get(key));
       return {
         key,
         label: theme.label || label,

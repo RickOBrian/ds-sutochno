@@ -20,7 +20,7 @@ function CardField({ label, children }: { label: string; children: ReactNode }) 
 
 export function ComponentCards({ rows }: ComponentCardsProps) {
   return (
-    <ul className="min-w-0 divide-y divide-zinc-100/80 lg:hidden">
+    <ul className="min-w-0 divide-y divide-[var(--border-subtle)] lg:hidden">
       {rows.map((row, index) => (
         <li key={`${row.componentName}-${index}`} className="px-3.5 py-4 sm:px-5 sm:py-5">
           <div className="mb-4 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
@@ -33,7 +33,7 @@ export function ComponentCards({ rows }: ComponentCardsProps) {
               />
             </div>
             <div className="shrink-0 self-start">
-              <GroomingBadge status={row.grooming} />
+              <GroomingBadge status={row.grooming} colorHex={row.groomingColor} />
             </div>
           </div>
           <div className="grid gap-4">
@@ -46,7 +46,7 @@ export function ComponentCards({ rows }: ComponentCardsProps) {
             <div className="grid grid-cols-1 gap-4 min-[400px]:grid-cols-2">
               <CardField label="Исполнитель">
                 {row.assignee.trim() ? (
-                  <span className="break-words text-sm font-light text-zinc-600">
+                  <span className="break-words text-sm font-light text-[var(--ink-muted)]">
                     {row.assignee}
                   </span>
                 ) : (
@@ -55,7 +55,7 @@ export function ComponentCards({ rows }: ComponentCardsProps) {
               </CardField>
               <CardField label="План дата">
                 {row.planDate.trim() ? (
-                  <span className="text-sm font-light text-zinc-600">{row.planDate}</span>
+                  <span className="text-sm font-light text-[var(--ink-muted)]">{row.planDate}</span>
                 ) : (
                   <EmptyDash />
                 )}

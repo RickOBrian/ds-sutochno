@@ -5,6 +5,7 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { collectLegendItems } from "@/lib/roadmap-colors";
 import { countTasksOnMoscowWeek } from "@/lib/moscow-week";
 import { buildTimelineLayout } from "@/lib/timeline-layout";
+import { bento } from "@/lib/bento-styles";
 import type { RoadmapTask } from "@/types/roadmap-task";
 
 const CHART_PADDING_Y = 16;
@@ -21,8 +22,8 @@ interface TimelineWidgetProps {
 function TimelineEmpty() {
   return (
     <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
-      <p className="text-lg font-extralight text-zinc-900">Роудмап пуст</p>
-      <p className="mt-2 max-w-sm text-sm font-light text-zinc-400">
+      <p className={`text-lg font-extralight ${bento.ink}`}>Роудмап пуст</p>
+      <p className={`mt-2 max-w-sm text-sm font-light ${bento.inkFaint}`}>
         Добавьте задачи с датами начала и окончания в таблицу.
       </p>
     </div>
@@ -36,7 +37,7 @@ function TimelineLegend({ tasks }: { tasks: RoadmapTask[] }) {
 
   return (
     <div
-      className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-slate-100/80 px-4 py-3 sm:px-6"
+      className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-[var(--timeline-border)] px-4 py-3 sm:px-6"
       role="list"
       aria-label="Легенда роудмапа"
     >
@@ -46,7 +47,7 @@ function TimelineLegend({ tasks }: { tasks: RoadmapTask[] }) {
             className={`h-2.5 w-2.5 shrink-0 rounded-full ${item.legendClass}`}
             aria-hidden
           />
-          <span className="text-xs font-normal text-zinc-500">{item.categoryLabel}</span>
+          <span className={`text-xs font-normal ${bento.inkMuted}`}>{item.categoryLabel}</span>
         </div>
       ))}
     </div>
@@ -154,7 +155,7 @@ export function TimelineWidget({ tasks }: TimelineWidgetProps) {
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
-        className="col-span-full min-w-0 overflow-hidden rounded-3xl bg-white p-6 shadow-sm sm:p-8"
+        className="col-span-full min-w-0 overflow-hidden rounded-3xl bg-[var(--surface)] p-6 shadow-[var(--shadow-float)] ring-1 ring-[var(--border-subtle)] sm:p-8"
         aria-label="Роудмап"
       >
         <TimelineEmpty />
@@ -175,14 +176,14 @@ export function TimelineWidget({ tasks }: TimelineWidgetProps) {
       initial={{ opacity: 0, y: 28 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
-      className="col-span-full min-w-0 overflow-hidden rounded-3xl bg-white shadow-sm"
+      className="col-span-full min-w-0 overflow-hidden rounded-3xl bg-[var(--surface)] shadow-[var(--shadow-float)] ring-1 ring-[var(--border-subtle)]"
       aria-label="Роудмап"
     >
       <div className="px-4 py-4 sm:px-6 sm:py-5">
-        <h2 className="text-lg font-extralight tracking-tight text-zinc-900 sm:text-xl">
+        <h2 className={`text-lg font-extralight tracking-tight sm:text-xl ${bento.ink}`}>
           Roadmap
         </h2>
-        <p className="mt-1 text-xs font-light text-zinc-400">
+        <p className={`mt-1 text-xs font-light ${bento.inkFaint}`}>
           Задач на этой неделе: {tasksThisWeek}
         </p>
       </div>
@@ -229,7 +230,7 @@ export function TimelineWidget({ tasks }: TimelineWidgetProps) {
                 {layout.markers.map((marker) => (
                   <div
                     key={marker.date.toISOString()}
-                    className="pointer-events-none absolute top-0 border-l border-slate-100"
+                    className="pointer-events-none absolute top-0 border-l border-[var(--timeline-grid)]"
                     style={{
                       left: marker.leftPx,
                       height: scrollContentHeight - CHART_PADDING_Y * 2,
@@ -240,7 +241,7 @@ export function TimelineWidget({ tasks }: TimelineWidgetProps) {
 
                 {layout.todayLeftPx !== null && (
                   <div
-                    className="pointer-events-none absolute z-20 border-l-2 border-red-300"
+                    className="pointer-events-none absolute z-20 border-l-2 border-red-400 dark:border-red-500/80"
                     style={{
                       left: layout.todayLeftPx,
                       top: CHART_PADDING_Y,
@@ -298,7 +299,7 @@ export function TimelineWidget({ tasks }: TimelineWidgetProps) {
             </div>
 
             <div
-              className="relative w-full shrink-0 border-t border-slate-100/80 bg-white"
+              className="relative w-full shrink-0 border-t border-[var(--timeline-border)] bg-[var(--timeline-scale-bg)]"
               style={{ height: SCALE_HEIGHT }}
             >
               <div
@@ -308,7 +309,7 @@ export function TimelineWidget({ tasks }: TimelineWidgetProps) {
                 {layout.columns.map((column) => (
                   <span
                     key={`date-${column.columnKey}`}
-                    className="absolute bottom-2 max-w-[9rem] text-left text-[10px] leading-tight font-light text-zinc-400 sm:max-w-none sm:text-xs"
+                    className={`absolute bottom-2 max-w-[9rem] text-left text-[10px] leading-tight font-light sm:max-w-none sm:text-xs ${bento.inkFaint}`}
                     style={{ left: column.anchorLeftPx }}
                   >
                     {column.dateRangeLabel}
@@ -317,7 +318,7 @@ export function TimelineWidget({ tasks }: TimelineWidgetProps) {
 
                 {layout.todayLeftPx !== null && (
                   <span
-                    className="absolute bottom-7 z-30 -translate-x-1/2 whitespace-nowrap rounded-full bg-red-50 px-1.5 py-0.5 text-[10px] font-medium text-red-500"
+                    className="absolute bottom-7 z-30 -translate-x-1/2 whitespace-nowrap rounded-full bg-red-50 px-1.5 py-0.5 text-[10px] font-medium text-red-500 dark:bg-red-950/60 dark:text-red-400"
                     style={{ left: layout.todayLeftPx }}
                   >
                     Сегодня

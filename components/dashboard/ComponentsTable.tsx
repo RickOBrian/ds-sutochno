@@ -37,14 +37,14 @@ interface ComponentsTableProps {
 function TextCell({ value }: { value: string }) {
   const trimmed = value.trim();
   if (!trimmed) return <EmptyDash />;
-  return <span className="text-sm font-light text-zinc-600">{trimmed}</span>;
+  return <span className="text-sm font-light text-[var(--ink-muted)]">{trimmed}</span>;
 }
 
 function PlatformEmptyState() {
   return (
     <div className="flex flex-col items-center justify-center px-4 py-16 text-center sm:px-6 sm:py-24">
-      <p className="text-lg font-extralight text-zinc-900">Пока пусто</p>
-      <p className="mt-2 max-w-sm text-sm font-light text-zinc-400">
+      <p className={`text-lg font-extralight ${bento.ink}`}>Пока пусто</p>
+      <p className={`mt-2 max-w-sm text-sm font-light ${bento.inkFaint}`}>
         Данные для этой платформы ещё не добавлены в таблицу.
       </p>
     </div>
@@ -74,7 +74,7 @@ export function ComponentsTable({ rows, isPlatformEmpty, embedded = false }: Com
                 <th
                   key={col.key}
                   scope="col"
-                  className="sticky top-0 z-10 bg-white/80 px-4 py-4 text-left text-[10px] font-normal tracking-[0.14em] text-zinc-400 uppercase backdrop-blur-md xl:px-8 xl:py-5"
+                  className="sticky top-0 z-10 bg-[var(--surface)]/80 px-4 py-4 text-left text-[10px] font-normal tracking-[0.14em] text-[var(--ink-faint)] uppercase backdrop-blur-md xl:px-8 xl:py-5"
                 >
                   {col.label}
                 </th>
@@ -85,7 +85,7 @@ export function ComponentsTable({ rows, isPlatformEmpty, embedded = false }: Com
             {rows.map((row, index) => (
               <tr
                 key={`${row.componentName}-${index}`}
-                className="group transition-colors duration-300 hover:bg-zinc-50/40"
+                className="group transition-colors duration-300 hover:bg-[var(--row-hover)]"
               >
                 {COLUMNS.map((col) => (
                   <td
@@ -93,7 +93,7 @@ export function ComponentsTable({ rows, isPlatformEmpty, embedded = false }: Com
                     className="max-w-[14rem] px-4 py-4 align-middle xl:max-w-none xl:px-8 xl:py-5"
                   >
                     {col.kind === "badge" ? (
-                      <GroomingBadge status={row.grooming} />
+                      <GroomingBadge status={row.grooming} colorHex={row.groomingColor} />
                     ) : col.kind === "link" ? (
                       <LinkCell
                         value={String(row[col.key])}

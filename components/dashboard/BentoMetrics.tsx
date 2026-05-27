@@ -28,27 +28,41 @@ function StatusMetricCard({
   animationKey: Platform;
 }) {
   const Icon = item.theme.icon;
-  const showShare = item.key === APPROVED_STATUS_KEY;
+  const isApproved = item.key === APPROVED_STATUS_KEY;
 
   return (
-    <BentoCard delay={delay} variant="status" className="min-w-0 lg:min-h-[168px]">
+    <BentoCard
+      delay={delay}
+      variant={isApproved ? "approved" : "status"}
+      className="min-w-0 lg:min-h-[168px]"
+    >
       {/* Компактно на мобиле: подпись целиком, число ниже */}
       <div className="flex min-w-0 gap-2.5 lg:hidden">
         <div
-          className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${item.theme.iconClass}`}
+          className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+            isApproved ? "bg-white/30 text-zinc-900" : item.theme.iconClass
+          }`}
         >
           <Icon className="h-3.5 w-3.5" strokeWidth={1.5} />
         </div>
         <div className="min-w-0 flex-1">
-          <p className={`${bento.label} leading-snug wrap-break-word`}>{item.label}</p>
+          <p
+            className={`${isApproved ? bento.approvedLabel : bento.label} leading-snug wrap-break-word`}
+          >
+            {item.label}
+          </p>
           <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5">
-            <p className={bento.statusMetricInline}>
+            <p
+              className={
+                isApproved
+                  ? `text-xl font-extralight tabular-nums tracking-tight ${bento.approvedMetric}`
+                  : bento.statusMetricInline
+              }
+            >
               <AnimatedNumber value={item.count} replayKey={animationKey} />
             </p>
-            {showShare && (
-              <span
-                className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium leading-none ${item.theme.shareBadgeClass}`}
-              >
+            {isApproved && (
+              <span className={`${bento.approvedShareBadge} text-[10px] leading-none`}>
                 {item.share}%
               </span>
             )}
@@ -59,21 +73,23 @@ function StatusMetricCard({
       {/* Bento-раскладка на desktop */}
       <div className="hidden min-w-0 flex-col justify-between gap-8 lg:flex lg:min-h-[140px]">
         <div
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${item.theme.iconClass}`}
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${
+            isApproved ? "bg-white/30 text-zinc-900" : item.theme.iconClass
+          }`}
         >
           <Icon className="h-5 w-5" strokeWidth={1.5} />
         </div>
         <div className="min-w-0">
-          <p className={bento.label}>{item.label}</p>
-          <p className={`mt-3 ${bento.statusMetricBento} text-zinc-900`}>
+          <p className={isApproved ? bento.approvedLabel : bento.label}>{item.label}</p>
+          <p
+            className={`mt-3 ${bento.statusMetricBento} ${
+              isApproved ? bento.approvedMetric : bento.ink
+            }`}
+          >
             <AnimatedNumber value={item.count} replayKey={animationKey} />
           </p>
-          {showShare && (
-            <span
-              className={`mt-4 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${item.theme.shareBadgeClass}`}
-            >
-              {item.share}%
-            </span>
+          {isApproved && (
+            <span className={`mt-4 ${bento.approvedShareBadge}`}>{item.share}%</span>
           )}
         </div>
       </div>
@@ -108,17 +124,17 @@ export function BentoMetrics({ metrics, animationKey }: BentoMetricsProps) {
         }
       >
         <div className="flex flex-col gap-3 sm:gap-4 lg:justify-between lg:gap-10">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white/80 sm:h-10 sm:w-10 sm:rounded-2xl lg:h-11 lg:w-11">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--hero-icon-bg)] text-[var(--hero-icon-fg)] sm:h-10 sm:w-10 sm:rounded-2xl lg:h-11 lg:w-11">
             <Layers className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.5} />
           </div>
           <div className="min-w-0">
-            <p className="text-xs font-normal tracking-wide text-zinc-400">
+            <p className="text-xs font-normal tracking-wide text-[var(--hero-muted)]">
               Всего в дизайн-системе
             </p>
-            <p className={`mt-1 ${bento.metricHeroCompact} text-white lg:mt-3`}>
+            <p className={`mt-1 ${bento.metricHeroCompact} text-[var(--hero-fg)] lg:mt-3`}>
               <AnimatedNumber value={total} replayKey={animationKey} />
             </p>
-            <p className="mt-2 text-xs font-light text-zinc-500 sm:text-sm lg:mt-3">
+            <p className="mt-2 text-xs font-light text-[var(--hero-muted)] sm:text-sm lg:mt-3">
               компонентов на платформе
             </p>
           </div>

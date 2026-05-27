@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
 import { bento } from "@/lib/bento-styles";
-
+import { ThemeToggle } from "./ThemeToggle";
 interface BentoHeaderProps {
   onRefresh: () => void;
   isRefreshing: boolean;
@@ -33,14 +33,16 @@ export function BentoHeader({ onRefresh, isRefreshing }: BentoHeaderProps) {
           <h1 className={bento.titleMobile}>Грумминг компонентов</h1>
         </div>
 
-        <motion.button
-          type="button"
-          onClick={onRefresh}
-          disabled={isRefreshing}
-          whileTap={{ scale: 0.96 }}
-          transition={{ type: "spring", stiffness: 400, damping: 22 }}
-          className="inline-flex h-10 shrink-0 items-center gap-2 self-start rounded-full bg-zinc-900 px-5 text-sm font-normal text-white transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 md:self-auto"
-        >
+        <div className="flex shrink-0 items-center gap-2 self-start sm:gap-3 md:self-auto">
+          <ThemeToggle />
+          <motion.button
+            type="button"
+            onClick={onRefresh}
+            disabled={isRefreshing}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 400, damping: 22 }}
+            className={bento.btnPrimary}
+          >
           {isRefreshing ? "Обновление…" : "Обновить"}
           <motion.span
             className="inline-flex"
@@ -55,6 +57,7 @@ export function BentoHeader({ onRefresh, isRefreshing }: BentoHeaderProps) {
             <RefreshCw className="h-3.5 w-3.5" strokeWidth={2} />
           </motion.span>
         </motion.button>
+        </div>
       </div>
     </motion.header>
   );

@@ -10,7 +10,7 @@ interface PlatformTabsProps {
 export function PlatformTabs({ active, onChange }: PlatformTabsProps) {
   return (
     <div
-      className="inline-flex flex-wrap gap-1 rounded-full bg-zinc-100/80 p-1 backdrop-blur-sm"
+      className="inline-flex flex-wrap gap-1 rounded-full bg-[var(--surface-muted)] p-1 ring-1 ring-[var(--border-subtle)] backdrop-blur-sm"
       role="tablist"
       aria-label="Платформы"
     >

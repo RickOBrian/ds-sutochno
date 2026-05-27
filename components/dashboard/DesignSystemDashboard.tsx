@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Platform } from "@/lib/csv-sources";
 import { PLATFORMS, ROADMAP_CSV_URL } from "@/lib/csv-sources";
 import { fetchPlatformData } from "@/lib/fetch-platform-data";
+import { bento } from "@/lib/bento-styles";
 import { calculatePlatformMetrics } from "@/lib/metrics";
 import { fetchAndParseRoadmapCsv } from "@/lib/parse-roadmap-csv";
 import type { ComponentRow } from "@/types/component-row";
@@ -21,9 +22,18 @@ type LoadState = "loading" | "ready" | "error";
 function AmbientBackground() {
   return (
     <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden>
-      <div className="absolute -top-32 right-[-8rem] h-[28rem] w-[28rem] rounded-full bg-[var(--lime-glow)] blur-3xl" />
-      <div className="absolute top-1/3 left-[-6rem] h-80 w-80 rounded-full bg-zinc-200/50 blur-3xl" />
-      <div className="absolute right-1/4 bottom-0 h-64 w-64 rounded-full bg-white/60 blur-3xl" />
+      <div
+        className="absolute -top-32 right-[-8rem] h-[28rem] w-[28rem] rounded-full blur-3xl"
+        style={{ background: "var(--ambient-a)" }}
+      />
+      <div
+        className="absolute top-1/3 left-[-6rem] h-80 w-80 rounded-full blur-3xl"
+        style={{ background: "var(--ambient-b)" }}
+      />
+      <div
+        className="absolute right-1/4 bottom-0 h-64 w-64 rounded-full blur-3xl"
+        style={{ background: "var(--ambient-c)" }}
+      />
     </div>
   );
 }
@@ -101,15 +111,15 @@ export function DesignSystemDashboard() {
 
         {loadState === "error" && (
           <div
-            className="rounded-[2rem] bg-white p-8 shadow-[var(--shadow-float)]"
+            className={`${bento.card} p-8`}
             role="alert"
           >
-            <p className="text-lg font-extralight text-zinc-900">Не удалось загрузить данные</p>
-            <p className="mt-2 text-sm font-light text-red-500/90">{error}</p>
+            <p className={`text-lg font-extralight ${bento.ink}`}>Не удалось загрузить данные</p>
+            <p className="mt-2 text-sm font-light text-red-500/90 dark:text-red-400/90">{error}</p>
             <button
               type="button"
               onClick={() => void loadAllPlatforms()}
-              className="mt-6 inline-flex h-10 items-center justify-center rounded-full bg-zinc-900 px-6 text-sm font-normal text-white transition hover:bg-zinc-800"
+              className={`mt-6 ${bento.btnPrimary}`}
             >
               Повторить
             </button>

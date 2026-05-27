@@ -21,10 +21,10 @@ export function LinkCell({ value, href, variant = "default", brand }: LinkCellPr
   }
 
   const linkClassName =
-    "font-normal text-zinc-900 underline decoration-zinc-300 underline-offset-4 transition hover:decoration-zinc-900";
+    "font-normal text-[var(--ink)] underline decoration-[var(--border-strong)] underline-offset-4 transition hover:decoration-[var(--ink)]";
   const titleClassName =
-    "block max-w-full truncate text-sm font-medium text-zinc-900";
-  const plainClassName = "text-sm font-light text-zinc-600";
+    "block max-w-full truncate text-sm font-medium text-[var(--ink)]";
+  const plainClassName = "text-sm font-light text-[var(--ink-muted)]";
 
   const showBrand = brand === "figma" && Boolean(resolvedHref || hasLink);
 

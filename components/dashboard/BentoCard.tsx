@@ -13,7 +13,7 @@ interface BentoCardProps {
   children: ReactNode;
   className?: string;
   delay?: number;
-  variant?: "light" | "dark" | "status";
+  variant?: "light" | "dark" | "status" | "approved";
   compact?: boolean;
 }
 
@@ -27,9 +27,11 @@ export function BentoCard({
   const surface =
     variant === "dark"
       ? `${compact ? bento.cardDarkCompact : bento.cardDark} ${bento.cardHover}`
-      : variant === "status"
-        ? `${bento.statusCard} ${bento.cardHover}`
-        : `${compact ? bento.cardCompact : bento.card} ${bento.cardHover}`;
+      : variant === "approved"
+        ? `${bento.cardApproved} ${bento.cardHover}`
+        : variant === "status"
+          ? `${bento.statusCard} ${bento.cardHover}`
+          : `${compact ? bento.cardCompact : bento.card} ${bento.cardHover}`;
 
   return (
     <motion.div
