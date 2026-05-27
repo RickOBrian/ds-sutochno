@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import type { ComponentRow } from "@/types/component-row";
+import type { ComponentRow, TableColumnDef } from "@/types/component-row";
+import { getCardColumns } from "@/lib/sheet-columns";
 import { bento } from "@/lib/bento-styles";
 import { EmptyDash } from "./EmptyDash";
 import { GroomingBadge } from "./GroomingBadge";
@@ -7,6 +8,7 @@ import { LinkCell } from "./LinkCell";
 
 interface ComponentCardsProps {
   rows: ComponentRow[];
+  columns: TableColumnDef[];
 }
 
 function CardField({ label, children }: { label: string; children: ReactNode }) {
@@ -18,7 +20,29 @@ function CardField({ label, children }: { label: string; children: ReactNode }) 
   );
 }
 
-export function ComponentCards({ rows }: ComponentCardsProps) {
+function renderCardField(row: ComponentRow, col: TableColumnDef) {
+  if (col.kind === "link") {
+    const value = row[col.key] as string | undefined;
+    const href = col.hrefKey ? (row[col.hrefKey] as string | undefined) : undefined;
+    return (
+      <LinkCell
+        value={value ?? ""}
+        href={href}
+        variant={col.title ? "title" : "default"}
+        brand={col.brand}
+      />
+    );
+  }
+
+  const value = (row[col.key] as string | undefined)?.trim() ?? "";
+  if (!value) return <EmptyDash />;
+  return <span className="break-words text-sm font-light text-[var(--ink-muted)]">{value}</span>;
+}
+
+export function ComponentCards({ rows, columns }: ComponentCardsProps) {
+  const cardColumns = getCardColumns(columns);
+  const hasGrooming = columns.some((col) => col.key === "grooming");
+
   return (
     <ul className="min-w-0 divide-y divide-[var(--border-subtle)] lg:hidden">
       {rows.map((row, index) => (
@@ -32,36 +56,21 @@ export function ComponentCards({ rows }: ComponentCardsProps) {
                 brand="figma"
               />
             </div>
-            <div className="shrink-0 self-start">
-              <GroomingBadge status={row.grooming} colorHex={row.groomingColor} />
-            </div>
+            {hasGrooming && (
+              <div className="shrink-0 self-start">
+                <GroomingBadge status={row.grooming ?? ""} colorHex={row.groomingColor} />
+              </div>
+            )}
           </div>
-          <div className="grid gap-4">
-            <CardField label="Тред грумминга">
-              <LinkCell value={row.groomingThread} href={row.groomingThreadUrl} />
-            </CardField>
-            <CardField label="Ссылка на задачу">
-              <LinkCell value={row.taskLink} href={row.taskLinkUrl} />
-            </CardField>
-            <div className="grid grid-cols-1 gap-4 min-[400px]:grid-cols-2">
-              <CardField label="Исполнитель">
-                {row.assignee.trim() ? (
-                  <span className="break-words text-sm font-light text-[var(--ink-muted)]">
-                    {row.assignee}
-                  </span>
-                ) : (
-                  <EmptyDash />
-                )}
-              </CardField>
-              <CardField label="План дата">
-                {row.planDate.trim() ? (
-                  <span className="text-sm font-light text-[var(--ink-muted)]">{row.planDate}</span>
-                ) : (
-                  <EmptyDash />
-                )}
-              </CardField>
+          {cardColumns.length > 0 && (
+            <div className="grid gap-4">
+              {cardColumns.map((col) => (
+                <CardField key={col.key} label={col.label}>
+                  {renderCardField(row, col)}
+                </CardField>
+              ))}
             </div>
-          </div>
+          )}
         </li>
       ))}
     </ul>

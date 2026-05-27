@@ -2,7 +2,7 @@ import type { Platform } from "@/lib/csv-sources";
 import { CSV_URLS, SHEET_HTML_URLS } from "@/lib/csv-sources";
 import { fetchAndParseCsv } from "@/lib/parse-csv";
 import { fetchAndParseSheetHtml } from "@/lib/parse-sheet-html";
-import type { ComponentRow } from "@/types/component-row";
+import type { ComponentRow, PlatformSheetData } from "@/types/component-row";
 
 function normalizeName(name: string): string {
   return name.trim().toLowerCase();
@@ -27,14 +27,28 @@ function mergeRows(csvRows: ComponentRow[], htmlRows: ComponentRow[]): Component
   });
 }
 
-export async function fetchPlatformData(platform: Platform): Promise<ComponentRow[]> {
-  const [csvRows, htmlRows] = await Promise.all([
+const EMPTY_SHEET: PlatformSheetData = { rows: [], columns: [] };
+
+export async function fetchPlatformData(platform: Platform): Promise<PlatformSheetData> {
+  const [csvData, htmlData] = await Promise.all([
     fetchAndParseCsv(CSV_URLS[platform]),
-    fetchAndParseSheetHtml(SHEET_HTML_URLS[platform]).catch(() => [] as ComponentRow[]),
+    fetchAndParseSheetHtml(SHEET_HTML_URLS[platform]).catch(() => EMPTY_SHEET),
   ]);
 
-  if (csvRows.length === 0) return htmlRows;
-  if (htmlRows.length === 0) return csvRows;
+  if (csvData.rows.length === 0 && htmlData.rows.length === 0) {
+    return { rows: [], columns: csvData.columns.length > 0 ? csvData.columns : htmlData.columns };
+  }
 
-  return mergeRows(csvRows, htmlRows);
+  if (csvData.rows.length === 0) {
+    return htmlData;
+  }
+
+  if (htmlData.rows.length === 0) {
+    return csvData;
+  }
+
+  return {
+    rows: mergeRows(csvData.rows, htmlData.rows),
+    columns: csvData.columns,
+  };
 }

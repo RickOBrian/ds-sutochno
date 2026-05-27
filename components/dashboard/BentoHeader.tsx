@@ -1,13 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { RefreshCw } from "lucide-react";
 import { bento } from "@/lib/bento-styles";
 import { ThemeToggle } from "./ThemeToggle";
-interface BentoHeaderProps {
-  onRefresh: () => void;
-  isRefreshing: boolean;
-}
 
 function formatHeaderDate(date: Date): string {
   return new Intl.DateTimeFormat("ru-RU", {
@@ -17,7 +12,7 @@ function formatHeaderDate(date: Date): string {
   }).format(date);
 }
 
-export function BentoHeader({ onRefresh, isRefreshing }: BentoHeaderProps) {
+export function BentoHeader() {
   const today = formatHeaderDate(new Date());
 
   return (
@@ -30,33 +25,11 @@ export function BentoHeader({ onRefresh, isRefreshing }: BentoHeaderProps) {
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="space-y-3">
           <p className={`${bento.label} capitalize`}>{today}</p>
-          <h1 className={bento.titleMobile}>Грумминг компонентов</h1>
+          <h1 className={bento.titleMobile}>Хаб-портал ДС Суточно</h1>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2 self-start sm:gap-3 md:self-auto">
+        <div className="hidden shrink-0 md:flex md:self-auto">
           <ThemeToggle />
-          <motion.button
-            type="button"
-            onClick={onRefresh}
-            disabled={isRefreshing}
-            whileTap={{ scale: 0.96 }}
-            transition={{ type: "spring", stiffness: 400, damping: 22 }}
-            className={bento.btnPrimary}
-          >
-          {isRefreshing ? "Обновление…" : "Обновить"}
-          <motion.span
-            className="inline-flex"
-            animate={isRefreshing ? { rotate: 360 } : { rotate: 0 }}
-            whileTap={isRefreshing ? undefined : { rotate: -180 }}
-            transition={
-              isRefreshing
-                ? { duration: 0.8, repeat: Infinity, ease: "linear" }
-                : { type: "spring", stiffness: 280, damping: 18 }
-            }
-          >
-            <RefreshCw className="h-3.5 w-3.5" strokeWidth={2} />
-          </motion.span>
-        </motion.button>
         </div>
       </div>
     </motion.header>

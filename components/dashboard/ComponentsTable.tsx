@@ -1,43 +1,42 @@
-import type { ComponentRow } from "@/types/component-row";
+import type { ComponentRow, TableColumnDef } from "@/types/component-row";
 import { bento } from "@/lib/bento-styles";
 import { ComponentCards } from "./ComponentCards";
 import { EmptyDash } from "./EmptyDash";
 import { GroomingBadge } from "./GroomingBadge";
-import { LinkCell, type LinkBrand } from "./LinkCell";
-
-const COLUMNS: {
-  key: keyof ComponentRow;
-  label: string;
-  kind: "link" | "badge" | "text";
-  hrefKey?: keyof ComponentRow;
-  title?: boolean;
-  brand?: LinkBrand;
-}[] = [
-  {
-    key: "componentName",
-    label: "Компонент",
-    kind: "link",
-    hrefKey: "componentNameUrl",
-    title: true,
-    brand: "figma",
-  },
-  { key: "groomingThread", label: "Тред", kind: "link", hrefKey: "groomingThreadUrl" },
-  { key: "grooming", label: "Статус", kind: "badge" },
-  { key: "taskLink", label: "Задача", kind: "link", hrefKey: "taskLinkUrl" },
-  { key: "assignee", label: "Исполнитель", kind: "text" },
-  { key: "planDate", label: "План", kind: "text" },
-];
+import { LinkCell } from "./LinkCell";
 
 interface ComponentsTableProps {
   rows: ComponentRow[];
+  columns: TableColumnDef[];
   isPlatformEmpty: boolean;
   embedded?: boolean;
 }
 
-function TextCell({ value }: { value: string }) {
-  const trimmed = value.trim();
+function TextCell({ value }: { value: string | undefined }) {
+  const trimmed = (value ?? "").trim();
   if (!trimmed) return <EmptyDash />;
   return <span className="text-sm font-light text-[var(--ink-muted)]">{trimmed}</span>;
+}
+
+function renderCell(row: ComponentRow, col: TableColumnDef) {
+  if (col.kind === "badge") {
+    return <GroomingBadge status={row.grooming ?? ""} colorHex={row.groomingColor} />;
+  }
+
+  if (col.kind === "link") {
+    const value = row[col.key] as string | undefined;
+    const href = col.hrefKey ? (row[col.hrefKey] as string | undefined) : undefined;
+    return (
+      <LinkCell
+        value={value ?? ""}
+        href={href}
+        variant={col.title ? "title" : "default"}
+        brand={col.brand}
+      />
+    );
+  }
+
+  return <TextCell value={row[col.key] as string | undefined} />;
 }
 
 function PlatformEmptyState() {
@@ -51,10 +50,13 @@ function PlatformEmptyState() {
   );
 }
 
-export function ComponentsTable({ rows, isPlatformEmpty, embedded = false }: ComponentsTableProps) {
-  const wrapperClass = embedded
-    ? "min-w-0"
-    : `${bento.card} min-w-0 !p-0`;
+export function ComponentsTable({
+  rows,
+  columns,
+  isPlatformEmpty,
+  embedded = false,
+}: ComponentsTableProps) {
+  const wrapperClass = embedded ? "min-w-0" : `${bento.card} min-w-0 !p-0`;
 
   if (isPlatformEmpty) {
     return (
@@ -64,13 +66,25 @@ export function ComponentsTable({ rows, isPlatformEmpty, embedded = false }: Com
     );
   }
 
+  if (columns.length === 0) {
+    return (
+      <div className={wrapperClass}>
+        <p className={`px-6 py-12 text-center text-sm font-light ${bento.inkFaint}`}>
+          Не удалось определить колонки таблицы.
+        </p>
+      </div>
+    );
+  }
+
+  const minWidth = `${Math.max(columns.length * 9, 36)}rem`;
+
   return (
     <div className={wrapperClass}>
       <div className="hidden min-w-0 overflow-x-auto lg:block">
-        <table className="w-full min-w-[52rem] border-collapse text-left">
+        <table className="w-full border-collapse text-left" style={{ minWidth }}>
           <thead>
             <tr>
-              {COLUMNS.map((col) => (
+              {columns.map((col) => (
                 <th
                   key={col.key}
                   scope="col"
@@ -87,25 +101,12 @@ export function ComponentsTable({ rows, isPlatformEmpty, embedded = false }: Com
                 key={`${row.componentName}-${index}`}
                 className="group transition-colors duration-300 hover:bg-[var(--row-hover)]"
               >
-                {COLUMNS.map((col) => (
+                {columns.map((col) => (
                   <td
                     key={col.key}
                     className="max-w-[14rem] px-4 py-4 align-middle xl:max-w-none xl:px-8 xl:py-5"
                   >
-                    {col.kind === "badge" ? (
-                      <GroomingBadge status={row.grooming} colorHex={row.groomingColor} />
-                    ) : col.kind === "link" ? (
-                      <LinkCell
-                        value={String(row[col.key])}
-                        href={
-                          col.hrefKey ? (row[col.hrefKey] as string | undefined) : undefined
-                        }
-                        variant={col.title ? "title" : "default"}
-                        brand={col.brand}
-                      />
-                    ) : (
-                      <TextCell value={String(row[col.key])} />
-                    )}
+                    {renderCell(row, col)}
                   </td>
                 ))}
               </tr>
@@ -113,7 +114,7 @@ export function ComponentsTable({ rows, isPlatformEmpty, embedded = false }: Com
           </tbody>
         </table>
       </div>
-      <ComponentCards rows={rows} />
+      <ComponentCards rows={rows} columns={columns} />
     </div>
   );
 }

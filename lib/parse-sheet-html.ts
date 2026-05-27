@@ -1,5 +1,10 @@
-import type { ComponentRow } from "@/types/component-row";
+import {
+  buildColumnIndexMap,
+  normalizeHeader,
+  resolveColumnsFromHeaders,
+} from "@/lib/sheet-columns";
 import { normalizeHref } from "@/lib/link-utils";
+import type { ComponentRow, DataColumnKey, PlatformSheetData } from "@/types/component-row";
 
 interface ParsedCell {
   text: string;
@@ -54,33 +59,64 @@ function parseCellHtml(html: string): ParsedCell {
 
 function findHeaderRowIndex(rows: ParsedCell[][]): number {
   return rows.findIndex((row) =>
-    row.some((cell) => cell.text.trim().toLowerCase() === "название компонента"),
+    row.some((cell) => normalizeHeader(cell.text) === "название компонента"),
   );
 }
 
-function toComponentRow(cells: ParsedCell[], groomingCol: number): ComponentRow | null {
-  const [name, thread, , task, assignee, planDate] = cells;
-  const groomingCell = groomingCol >= 0 ? cells[groomingCol] : cells[2];
-
-  if (!name?.text.trim()) return null;
-
-  return {
-    componentName: name.text,
-    componentNameUrl: name.href,
-    groomingThread: thread?.text ?? "",
-    groomingThreadUrl: thread?.href,
-    grooming: groomingCell?.text ?? "",
-    groomingColor: groomingCell?.backgroundColor,
-    taskLink: task?.text ?? "",
-    taskLinkUrl: task?.href,
-    assignee: assignee?.text ?? "",
-    planDate: planDate?.text ?? "",
+function mapRowFromParsedCells(
+  cells: ParsedCell[],
+  columnIndex: Partial<Record<DataColumnKey, number>>,
+): ComponentRow | null {
+  const get = (key: DataColumnKey) => {
+    const index = columnIndex[key];
+    if (index === undefined) return undefined;
+    return cells[index];
   };
+
+  const nameCell = get("componentName");
+  if (!nameCell?.text.trim()) return null;
+
+  const row: ComponentRow = {
+    componentName: nameCell.text,
+    componentNameUrl: nameCell.href,
+  };
+
+  const threadCell = get("groomingThread");
+  if (threadCell !== undefined) {
+    row.groomingThread = threadCell.text;
+    row.groomingThreadUrl = threadCell.href;
+  }
+
+  const groomingCell = get("grooming");
+  if (groomingCell !== undefined) {
+    row.grooming = groomingCell.text;
+    row.groomingColor = groomingCell.backgroundColor;
+  }
+
+  const taskCell = get("taskLink");
+  if (taskCell !== undefined) {
+    row.taskLink = taskCell.text;
+    row.taskLinkUrl = taskCell.href;
+  }
+
+  const assigneeCell = get("assignee");
+  if (assigneeCell !== undefined) {
+    row.assignee = assigneeCell.text;
+  }
+
+  const planCell = get("planDate");
+  if (planCell !== undefined) {
+    row.planDate = planCell.text;
+  }
+
+  return row;
 }
 
-export function parseSheetHtml(html: string): ComponentRow[] {
+export function parseSheetHtml(html: string): PlatformSheetData {
   const tableMatch = html.match(/<table[^>]*>([\s\S]*?)<\/table>/i);
-  if (!tableMatch) return [];
+  if (!tableMatch) {
+    return { rows: [], columns: [] };
+  }
 
   const rowRe = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
   const cellRe = /<td[^>]*>([\s\S]*?)<\/td>/gi;
@@ -95,19 +131,23 @@ export function parseSheetHtml(html: string): ComponentRow[] {
   }
 
   const headerIndex = findHeaderRowIndex(parsedRows);
-  if (headerIndex === -1) return [];
+  if (headerIndex === -1) {
+    return { rows: [], columns: [] };
+  }
 
-  const groomingCol = parsedRows[headerIndex].findIndex(
-    (cell) => cell.text.trim().toLowerCase() === "грумминг",
-  );
+  const headers = parsedRows[headerIndex].map((cell) => cell.text);
+  const columns = resolveColumnsFromHeaders(headers);
+  const columnIndex = buildColumnIndexMap(headers);
 
-  return parsedRows
+  const rows = parsedRows
     .slice(headerIndex + 1)
-    .map((row) => toComponentRow(row, groomingCol))
+    .map((cells) => mapRowFromParsedCells(cells, columnIndex))
     .filter((row): row is ComponentRow => row !== null);
+
+  return { rows, columns };
 }
 
-export async function fetchAndParseSheetHtml(url: string): Promise<ComponentRow[]> {
+export async function fetchAndParseSheetHtml(url: string): Promise<PlatformSheetData> {
   const response = await fetch(url, { cache: "no-store" });
 
   if (!response.ok) {

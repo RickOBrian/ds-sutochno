@@ -7,7 +7,7 @@ import { fetchPlatformData } from "@/lib/fetch-platform-data";
 import { bento } from "@/lib/bento-styles";
 import { calculatePlatformMetrics } from "@/lib/metrics";
 import { fetchAndParseRoadmapCsv } from "@/lib/parse-roadmap-csv";
-import type { ComponentRow } from "@/types/component-row";
+import type { PlatformSheetData } from "@/types/component-row";
 import type { RoadmapTask } from "@/types/roadmap-task";
 import { BentoHeader } from "./BentoHeader";
 import { BentoMetrics } from "./BentoMetrics";
@@ -16,7 +16,9 @@ import { BentoTableWidget } from "./BentoTableWidget";
 import { DashboardToolbar } from "./DashboardToolbar";
 import { TimelineWidget } from "./TimelineWidget";
 
-type PlatformData = Record<Platform, ComponentRow[]>;
+type PlatformData = Record<Platform, PlatformSheetData>;
+
+const EMPTY_SHEET: PlatformSheetData = { rows: [], columns: [] };
 type LoadState = "loading" | "ready" | "error";
 
 function AmbientBackground() {
@@ -40,20 +42,17 @@ function AmbientBackground() {
 
 export function DesignSystemDashboard() {
   const [activePlatform, setActivePlatform] = useState<Platform>("ios");
-  const [data, setData] = useState<PlatformData>({ ios: [], android: [], web: [] });
+  const [data, setData] = useState<PlatformData>({
+    ios: EMPTY_SHEET,
+    android: EMPTY_SHEET,
+    web: EMPTY_SHEET,
+  });
   const [roadmapTasks, setRoadmapTasks] = useState<RoadmapTask[]>([]);
   const [loadState, setLoadState] = useState<LoadState>("loading");
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadAllPlatforms = useCallback(async (options?: { silent?: boolean }) => {
-    const silent = options?.silent ?? false;
-
-    if (silent) {
-      setIsRefreshing(true);
-    } else {
-      setLoadState("loading");
-    }
+  const loadAllPlatforms = useCallback(async () => {
+    setLoadState("loading");
     setError(null);
 
     try {
@@ -73,8 +72,6 @@ export function DesignSystemDashboard() {
     } catch (err) {
       setLoadState("error");
       setError(err instanceof Error ? err.message : "Неизвестная ошибка загрузки");
-    } finally {
-      setIsRefreshing(false);
     }
   }, []);
 
@@ -82,23 +79,17 @@ export function DesignSystemDashboard() {
     void loadAllPlatforms();
   }, [loadAllPlatforms]);
 
-  const activeRows = data[activePlatform];
+  const activeSheet = data[activePlatform];
+  const activeRows = activeSheet.rows;
+  const activeColumns = activeSheet.columns;
   const metrics = useMemo(() => calculatePlatformMetrics(activeRows), [activeRows]);
-
-  const handleRefresh = () => {
-    if (loadState === "ready") {
-      void loadAllPlatforms({ silent: true });
-    } else {
-      void loadAllPlatforms();
-    }
-  };
 
   return (
     <div className="relative min-h-full overflow-x-clip bg-[var(--canvas)]">
       <AmbientBackground />
 
       <div className="relative mx-auto min-w-0 max-w-7xl p-3 sm:p-4 md:p-8">
-        <BentoHeader onRefresh={handleRefresh} isRefreshing={isRefreshing} />
+        <BentoHeader />
 
         {loadState === "ready" && (
           <DashboardToolbar
@@ -129,7 +120,11 @@ export function DesignSystemDashboard() {
         {loadState === "ready" && (
           <div className="flex min-w-0 flex-col gap-4 sm:gap-5 md:gap-6">
             <BentoMetrics metrics={metrics} animationKey={activePlatform} />
-            <BentoTableWidget rows={activeRows} isPlatformEmpty={activeRows.length === 0} />
+            <BentoTableWidget
+              rows={activeRows}
+              columns={activeColumns}
+              isPlatformEmpty={activeRows.length === 0}
+            />
             <TimelineWidget tasks={roadmapTasks} />
           </div>
         )}

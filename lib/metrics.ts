@@ -25,7 +25,7 @@ function buildStatusColorMap(rows: ComponentRow[]): Map<string, string> {
 
   for (const row of rows) {
     if (!row.groomingColor?.trim()) continue;
-    const key = normalizeStatusKey(row.grooming);
+    const key = normalizeStatusKey(row.grooming ?? "");
     if (!map.has(key)) map.set(key, row.groomingColor.trim());
   }
 
@@ -38,7 +38,7 @@ export function calculatePlatformMetrics(rows: ComponentRow[]): PlatformMetrics 
   const counts = new Map<string, { count: number; label: string }>();
 
   for (const row of rows) {
-    const raw = row.grooming.trim();
+    const raw = (row.grooming ?? "").trim();
     const key = normalizeStatusKey(raw);
     const existing = counts.get(key);
 

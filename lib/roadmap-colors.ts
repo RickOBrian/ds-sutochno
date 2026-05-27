@@ -12,7 +12,8 @@ const DEFAULT_STYLE: RoadmapBarStyle = {
   barClass:
     "bg-zinc-100/90 ring-1 ring-zinc-200/60 dark:bg-zinc-500/20 dark:ring-zinc-500/30",
   textClass: "text-zinc-700 dark:text-zinc-200",
-  legendClass: "bg-zinc-200 ring-1 ring-zinc-200/80 dark:bg-zinc-500/40",
+  legendClass:
+    "bg-zinc-100/90 ring-1 ring-zinc-200/60 dark:bg-zinc-500/20 dark:ring-zinc-500/30",
 };
 
 const TASK_TYPE_STYLES: Record<string, RoadmapBarStyle> = {
@@ -22,7 +23,8 @@ const TASK_TYPE_STYLES: Record<string, RoadmapBarStyle> = {
     barClass:
       "bg-violet-100/90 ring-1 ring-violet-200/50 dark:bg-violet-500/25 dark:ring-violet-400/30",
     textClass: "text-violet-800 dark:text-violet-100",
-    legendClass: "bg-violet-100 ring-1 ring-violet-200/60",
+    legendClass:
+      "bg-violet-100/90 ring-1 ring-violet-200/50 dark:bg-violet-500/25 dark:ring-violet-400/30",
   },
   токены: {
     categoryKey: "токены",
@@ -30,7 +32,8 @@ const TASK_TYPE_STYLES: Record<string, RoadmapBarStyle> = {
     barClass:
       "bg-amber-100/90 ring-1 ring-amber-200/50 dark:bg-amber-500/25 dark:ring-amber-400/30",
     textClass: "text-amber-900 dark:text-amber-100",
-    legendClass: "bg-amber-100 ring-1 ring-amber-200/60",
+    legendClass:
+      "bg-amber-100/90 ring-1 ring-amber-200/50 dark:bg-amber-500/25 dark:ring-amber-400/30",
   },
   процессы: {
     categoryKey: "процессы",
@@ -38,7 +41,8 @@ const TASK_TYPE_STYLES: Record<string, RoadmapBarStyle> = {
     barClass:
       "bg-zinc-100/90 ring-1 ring-zinc-200/60 dark:bg-zinc-500/20 dark:ring-zinc-500/30",
     textClass: "text-zinc-600 dark:text-zinc-200",
-    legendClass: "bg-zinc-100 ring-1 ring-zinc-200/80 dark:bg-zinc-500/40",
+    legendClass:
+      "bg-zinc-100/90 ring-1 ring-zinc-200/60 dark:bg-zinc-500/20 dark:ring-zinc-500/30",
   },
   веб: {
     categoryKey: "веб",
@@ -46,7 +50,8 @@ const TASK_TYPE_STYLES: Record<string, RoadmapBarStyle> = {
     barClass:
       "bg-sky-100/90 ring-1 ring-sky-200/50 dark:bg-sky-500/25 dark:ring-sky-400/30",
     textClass: "text-sky-800 dark:text-sky-100",
-    legendClass: "bg-sky-100 ring-1 ring-sky-200/60",
+    legendClass:
+      "bg-sky-100/90 ring-1 ring-sky-200/50 dark:bg-sky-500/25 dark:ring-sky-400/30",
   },
   web: {
     categoryKey: "веб",
@@ -54,7 +59,8 @@ const TASK_TYPE_STYLES: Record<string, RoadmapBarStyle> = {
     barClass:
       "bg-sky-100/90 ring-1 ring-sky-200/50 dark:bg-sky-500/25 dark:ring-sky-400/30",
     textClass: "text-sky-800 dark:text-sky-100",
-    legendClass: "bg-sky-100 ring-1 ring-sky-200/60",
+    legendClass:
+      "bg-sky-100/90 ring-1 ring-sky-200/50 dark:bg-sky-500/25 dark:ring-sky-400/30",
   },
 };
 

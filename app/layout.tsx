@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DS Dashboard — Грумминг компонентов",
-  description: "Дашборд статусов компонентов дизайн-системы по платформам iOS, Android и Web",
+  title: "Хаб-портал ДС Суточно",
+  description: "Дашборд статусов компонентов дизайн-системы Суточно по платформам iOS, Android и Web",
 };
 
 export default function RootLayout({
