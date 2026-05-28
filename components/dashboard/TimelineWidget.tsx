@@ -152,10 +152,11 @@ export function TimelineWidget({ tasks }: TimelineWidgetProps) {
   if (!layout) {
     return (
       <motion.section
+        id="roadmap"
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
-        className="col-span-full min-w-0 overflow-hidden rounded-3xl bg-[var(--surface)] p-6 shadow-[var(--shadow-float)] ring-1 ring-[var(--border-subtle)] sm:p-8"
+        className="scroll-mt-24 col-span-full min-w-0 overflow-hidden rounded-3xl bg-[var(--surface)] p-6 shadow-[var(--shadow-float)] ring-1 ring-[var(--border-subtle)] sm:p-8"
         aria-label="Роудмап"
       >
         <TimelineEmpty />
@@ -173,10 +174,11 @@ export function TimelineWidget({ tasks }: TimelineWidgetProps) {
 
   return (
     <motion.section
+      id="roadmap"
       initial={{ opacity: 0, y: 28 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
-      className="col-span-full min-w-0 overflow-hidden rounded-3xl bg-[var(--surface)] shadow-[var(--shadow-float)] ring-1 ring-[var(--border-subtle)]"
+      className="scroll-mt-24 col-span-full min-w-0 overflow-hidden rounded-3xl bg-[var(--surface)] shadow-[var(--shadow-float)] ring-1 ring-[var(--border-subtle)]"
       aria-label="Роудмап"
     >
       <div className="px-4 py-4 sm:px-6 sm:py-5">
