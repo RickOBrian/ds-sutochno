@@ -14,7 +14,7 @@ interface RedPolicyPageViewProps {
 
 export function RedPolicyPageView({ document }: RedPolicyPageViewProps) {
   return (
-    <div className="relative min-h-full overflow-x-clip bg-[var(--canvas)]">
+    <div className="red-policy relative min-h-full overflow-x-clip bg-[var(--canvas)]">
       <RedPolicyAmbient />
 
       <div className="relative mx-auto min-w-0 max-w-7xl p-3 sm:p-4 md:p-8">

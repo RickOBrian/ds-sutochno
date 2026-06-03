@@ -19,7 +19,7 @@
   --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.07);
   --hero-bg: #09090b;
   --hero-fg: #ffffff;
-  --hero-muted: #a1a1aa;
+  --hero-muted: rgba(255, 255, 255, 0.62);
   --hero-icon-bg: rgba(255, 255, 255, 0.1);
   --hero-icon-fg: rgba(255, 255, 255, 0.85);
   --hero-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
@@ -55,7 +55,7 @@
   --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.55);
   --hero-bg: #ffffff;
   --hero-fg: #09090b;
-  --hero-muted: #71717a;
+  --hero-muted: rgba(0, 0, 0, 0.52);
   --hero-icon-bg: rgba(24, 24, 27, 0.07);
   --hero-icon-fg: #3f3f46;
   --hero-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
@@ -184,4 +184,213 @@ body {
   display: none;
   width: 0;
   height: 0;
+}
+
+/* Редполитика: контраст body ≥ WCAG AA (4.5:1), ближе к editorial/docs */
+.red-policy {
+  --rp-prose: #27272a;
+  --rp-prose-secondary: #3f3f46;
+  --rp-prose-meta: #52525b;
+}
+
+.dark .red-policy {
+  --rp-prose: #e4e4e7;
+  --rp-prose-secondary: #d4d4d8;
+  --rp-prose-meta: #a1a1aa;
+}
+
+/* Текст на тонированных / цветных карточках (коллауты, do/don’t) */
+.on-tint-surface {
+  --on-tint-fg: rgba(0, 0, 0, 0.82);
+  --on-tint-fg-meta: rgba(0, 0, 0, 0.52);
+}
+
+.dark .on-tint-surface {
+  --on-tint-fg: rgba(255, 255, 255, 0.9);
+  --on-tint-fg-meta: rgba(255, 255, 255, 0.62);
+}
+
+/* Страница «Концепты и вижн» — тёмный editorial bento как в Figma */
+body:has(.ds-vision) {
+  background: #060608;
+  color: #fafafa;
+}
+
+.ds-vision {
+  --vision-canvas: #060608;
+  --vision-tile: #121214;
+  --vision-tile-elevated: #18181b;
+  --vision-border: rgba(255, 255, 255, 0.08);
+  --vision-border-strong: rgba(255, 255, 255, 0.14);
+  --vision-text: rgba(255, 255, 255, 0.95);
+  --vision-muted: rgba(255, 255, 255, 0.68);
+  --vision-faint: rgba(255, 255, 255, 0.42);
+  --vision-red: #e11d2e;
+  --vision-red-deep: #b91c2c;
+  --vision-red-glow: rgba(225, 29, 46, 0.55);
+  --vision-lime: #d4f54a;
+  --vision-glass: rgba(255, 255, 255, 0.06);
+  color: var(--vision-text);
+  background: var(--vision-canvas);
+}
+
+.vision-liquid-glass {
+  isolation: isolate;
+  background: linear-gradient(
+    148deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.07) 38%,
+    rgba(255, 255, 255, 0.035) 68%,
+    rgba(255, 255, 255, 0.055) 100%
+  );
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 1px 0 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 16px 48px rgba(0, 0, 0, 0.38);
+}
+
+.vision-liquid-glass::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120% 80% at 12% 0%,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.04) 42%,
+    transparent 72%
+  );
+  opacity: 0.9;
+}
+
+.vision-liquid-glass::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    165deg,
+    transparent 55%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+}
+
+.ds-vision ::selection {
+  background: rgba(225, 29, 46, 0.35);
+  color: #fff;
+}
+
+.vision-type-caret {
+  width: 2px;
+  height: 1.05em;
+  border-radius: 1px;
+  background: var(--vision-red);
+  animation: vision-caret-blink 1.05s step-end infinite;
+}
+
+@keyframes vision-caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  46%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vision-type-caret {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.mascot-ducks-art {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: block;
+  height: clamp(12.2rem, 139%, 22.5rem);
+  width: auto;
+  max-width: none;
+  transform: translate(22%, 16%);
+  transform-origin: bottom right;
+  object-fit: contain;
+  object-position: bottom right;
+  background: transparent;
+  user-select: none;
+}
+
+@media (min-width: 640px) {
+  .mascot-ducks-art {
+    height: clamp(13.125rem, 150%, 25.3125rem);
+    transform: translate(24%, 17%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .mascot-ducks-art {
+    height: clamp(15rem, 161.25%, 29.0625rem);
+    transform: translate(26%, 18%);
+  }
+}
+
+@media (min-width: 1536px) {
+  .mascot-ducks-art {
+    height: clamp(16.875rem, 168.75%, 32.8125rem);
+    transform: translate(28%, 19%);
+  }
+}
+
+.ds-vision-shell {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: clamp(0.75rem, 3vw, 2.5rem);
+}
+
+@media (min-width: 1024px) {
+  .ds-vision-shell {
+    max-width: min(94vw, 88rem);
+  }
+}
+
+/* Ширина макета как на lg — без раздувания плиток на 2K/4K */
+@media (min-width: 1536px) {
+  .ds-vision-shell {
+    max-width: min(94vw, 88rem);
+  }
+}
+
+.ds-vision-grid {
+  width: 100%;
+  transition: gap 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 1024px) {
+  .ds-vision-grid {
+    grid-template-rows: repeat(4, minmax(10.5rem, auto));
+    align-content: start;
+  }
+}
+
+@media (min-width: 1536px) {
+  .ds-vision-grid {
+    grid-template-rows: repeat(4, minmax(11rem, auto));
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .ds-vision-grid {
+    gap: 1.5rem;
+  }
 }

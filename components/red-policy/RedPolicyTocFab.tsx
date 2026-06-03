@@ -44,7 +44,7 @@ function TocSheetList({
             ) : (
               <span className="flex gap-2.5">
                 <span
-                  className="mt-[0.35rem] h-1 w-1 shrink-0 rounded-full bg-[var(--ink-faint)]"
+                  className="mt-[0.35rem] h-1 w-1 shrink-0 rounded-full bg-[var(--rp-prose-meta)]"
                   aria-hidden
                 />
                 {section.title}

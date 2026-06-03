@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+  <!-- Material-style icon keylines (24dp � 100) -->
+  <rect x="12.5" y="12.5" width="75" height="75" stroke="currentColor" stroke-width="0.5" />
+  <circle cx="50" cy="50" r="37.5" stroke="currentColor" stroke-width="0.5" />
+  <circle cx="50" cy="50" r="18.75" stroke="currentColor" stroke-width="0.5" />
+  <rect x="8.333" y="45.833" width="83.334" height="8.334" stroke="currentColor" stroke-width="0.5" />
+  <rect x="45.833" y="8.333" width="8.334" height="83.334" stroke="currentColor" stroke-width="0.5" />
+  <line x1="12.5" y1="12.5" x2="87.5" y2="87.5" stroke="currentColor" stroke-width="0.5" />
+  <line x1="87.5" y1="12.5" x2="12.5" y2="87.5" stroke="currentColor" stroke-width="0.5" />
+  <circle cx="12.5" cy="12.5" r="1.75" stroke="currentColor" stroke-width="0.5" />
+  <circle cx="87.5" cy="12.5" r="1.75" stroke="currentColor" stroke-width="0.5" />
+  <circle cx="87.5" cy="87.5" r="1.75" stroke="currentColor" stroke-width="0.5" />
+  <circle cx="12.5" cy="87.5" r="1.75" stroke="currentColor" stroke-width="0.5" />
+  <circle cx="50" cy="50" r="1.5" stroke="currentColor" stroke-width="0.5" />
+</svg>

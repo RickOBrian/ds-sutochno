@@ -1,4 +1,5 @@
 import { AlertTriangle, Info, StickyNote } from "lucide-react";
+import { onTint } from "@/lib/on-surface-text";
 import type { CalloutVariant } from "@/types/red-policy";
 
 const variantStyles: Record<
@@ -38,16 +39,18 @@ export function CalloutBlock({ variant, title, text }: CalloutBlockProps) {
 
   return (
     <aside
-      className={`rounded-2xl border p-5 text-pretty shadow-[var(--shadow-float)] sm:p-6 ${style.border} ${style.bg}`}
+      className={`${onTint.surface} rounded-2xl border p-5 text-pretty shadow-[var(--shadow-float)] sm:p-6 ${style.border} ${style.bg}`}
       role="note"
     >
       <div className="mb-2 flex items-center gap-2">
-        <Icon className="h-4 w-4 shrink-0 text-[var(--ink-muted)]" aria-hidden />
-        <span className="text-xs font-medium tracking-wide text-[var(--ink-muted)] uppercase">
+        <Icon className={`h-4 w-4 shrink-0 ${onTint.fgMeta}`} aria-hidden />
+        <span className={`text-xs font-medium tracking-wide uppercase ${onTint.fgMeta}`}>
           {heading}
         </span>
       </div>
-      <p className="text-sm font-light leading-relaxed text-[var(--ink)] sm:text-[0.9375rem] whitespace-pre-line">
+      <p
+        className={`text-sm font-normal leading-[1.7] sm:text-[0.9375rem] whitespace-pre-line ${onTint.fg}`}
+      >
         {text}
       </p>
     </aside>

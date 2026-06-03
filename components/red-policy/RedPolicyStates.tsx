@@ -5,7 +5,7 @@ import { RedPolicyTopBar } from "./RedPolicyTopBar";
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative min-h-full overflow-x-clip bg-[var(--canvas)]">
+    <div className="red-policy relative min-h-full overflow-x-clip bg-[var(--canvas)]">
       <RedPolicyAmbient />
       <div className="relative mx-auto min-w-0 max-w-3xl p-3 sm:p-4 md:p-8">
         <RedPolicyTopBar />

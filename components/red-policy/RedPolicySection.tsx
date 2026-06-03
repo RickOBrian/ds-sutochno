@@ -11,7 +11,7 @@ export function RedPolicySection({ id, title, level }: RedPolicySectionProps) {
       ? "scroll-mt-28 text-pretty text-2xl font-extralight tracking-tight text-[var(--ink)] sm:text-3xl"
       : level === 2
         ? "scroll-mt-28 text-pretty text-xl font-extralight tracking-tight text-[var(--ink)] sm:text-2xl"
-        : "scroll-mt-28 text-pretty text-lg font-light tracking-tight text-[var(--ink)]";
+        : "scroll-mt-28 text-pretty text-lg font-normal tracking-tight text-[var(--rp-prose)]";
 
   return (
     <div id={id}>

@@ -25,15 +25,15 @@ export function tocItemClassName(
         "py-2 pl-3.5 text-sm font-normal tracking-tight",
         active
           ? "border-[var(--lime-deep)] text-[var(--ink)]"
-          : "border-transparent text-[var(--ink)]/85 hover:border-[var(--border-strong)] hover:text-[var(--ink)]",
+          : "border-transparent text-[var(--rp-prose)] hover:border-[var(--border-strong)] hover:text-[var(--ink)]",
       ].join(" ");
     }
     return [
       base,
-      "py-1.5 pl-6 text-xs font-light",
+      "py-1.5 pl-6 text-xs font-normal",
       active
         ? "border-[var(--lime-deep)]/70 text-[var(--ink)]"
-        : "border-transparent text-[var(--ink-faint)] hover:border-[var(--border-subtle)] hover:text-[var(--ink-muted)]",
+        : "border-transparent text-[var(--rp-prose-secondary)] hover:border-[var(--border-subtle)] hover:text-[var(--rp-prose)]",
     ].join(" ");
   }
 
@@ -44,14 +44,14 @@ export function tocItemClassName(
       "px-4 py-3 text-sm font-normal tracking-tight",
       active
         ? "bg-[var(--surface-muted)] text-[var(--ink)] ring-1 ring-[var(--border-subtle)]"
-        : "text-[var(--ink)]/90 hover:bg-[var(--surface-muted)]/70",
+        : "text-[var(--rp-prose)] hover:bg-[var(--surface-muted)]/70",
     ].join(" ");
   }
   return [
     base,
-    "ml-2 px-4 py-2.5 text-xs font-light",
+    "ml-2 px-4 py-2.5 text-xs font-normal",
     active
       ? "bg-[var(--surface-muted)]/80 text-[var(--ink)] ring-1 ring-[var(--border-subtle)]"
-      : "text-[var(--ink-faint)] hover:bg-[var(--surface-muted)]/50 hover:text-[var(--ink-muted)]",
+      : "text-[var(--rp-prose-secondary)] hover:bg-[var(--surface-muted)]/50 hover:text-[var(--rp-prose)]",
   ].join(" ");
 }

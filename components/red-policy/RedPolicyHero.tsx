@@ -23,12 +23,12 @@ export function RedPolicyHero({ hero }: RedPolicyHeroProps) {
         {hero.title}
       </h1>
       {hero.subtitle && (
-        <p className="mt-5 max-w-3xl text-base font-light leading-relaxed text-[var(--hero-muted)] sm:text-lg">
+        <p className="mt-5 max-w-3xl text-base font-normal leading-[1.7] text-[var(--hero-muted)] sm:text-lg">
           {hero.subtitle}
         </p>
       )}
       {hero.description && (
-        <p className="mt-3 max-w-3xl text-sm font-light leading-relaxed text-[var(--hero-muted)]">
+        <p className="mt-3 max-w-3xl text-sm font-normal leading-[1.7] text-[var(--hero-muted)]">
           {hero.description}
         </p>
       )}

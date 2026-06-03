@@ -10,11 +10,11 @@ export const bento = {
   cardDarkCompact:
     "rounded-2xl bg-[var(--hero-bg)] p-3.5 text-[var(--hero-fg)] shadow-[var(--hero-shadow)] ring-1 ring-[var(--hero-ring)] sm:rounded-[1.75rem] sm:p-5 lg:rounded-[2rem] lg:p-8",
   cardApproved:
-    "rounded-xl bg-[var(--lime-deep)] p-2.5 text-zinc-900 shadow-[0_12px_40px_rgba(184,224,48,0.35)] dark:shadow-[0_12px_40px_rgba(184,224,48,0.22)] sm:rounded-2xl sm:p-3 lg:rounded-[2rem] lg:p-8",
-  approvedLabel: "text-xs font-normal tracking-wide text-zinc-800/75",
-  approvedMetric: "text-zinc-900",
+    "rounded-xl bg-[var(--lime-deep)] p-2.5 text-black/85 shadow-[0_12px_40px_rgba(184,224,48,0.35)] dark:shadow-[0_12px_40px_rgba(184,224,48,0.22)] sm:rounded-2xl sm:p-3 lg:rounded-[2rem] lg:p-8",
+  approvedLabel: "text-xs font-normal tracking-wide text-black/65",
+  approvedMetric: "text-black/85",
   approvedShareBadge:
-    "inline-flex items-center rounded-full bg-white px-2.5 py-0.5 text-xs font-medium text-zinc-900",
+    "inline-flex items-center rounded-full bg-white px-2.5 py-0.5 text-xs font-medium text-black/80",
   label: "text-xs font-normal tracking-wide text-[var(--ink-faint)]",
   metric: "text-5xl font-extralight tracking-tight md:text-6xl",
   metricCompact:
@@ -36,7 +36,7 @@ export const bento = {
   iconBtn:
     "flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border-subtle)] bg-[var(--surface)]/80 text-[var(--ink-muted)] backdrop-blur-md transition hover:border-[var(--border-strong)] hover:text-[var(--ink)]",
   limeBadge:
-    "inline-flex items-center rounded-full bg-[var(--lime)] px-2.5 py-0.5 text-xs font-medium text-zinc-900",
+    "inline-flex items-center rounded-full bg-[var(--lime)] px-2.5 py-0.5 text-xs font-medium text-black/80",
   surface: "bg-[var(--surface)]",
   surfaceMuted: "bg-[var(--surface-muted)]",
   ink: "text-[var(--ink)]",
@@ -44,4 +44,9 @@ export const bento = {
   inkFaint: "text-[var(--ink-faint)]",
   btnPrimary:
     "inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-[var(--btn-primary-bg)] px-5 text-sm font-normal text-[var(--btn-primary-fg)] transition-colors hover:bg-[var(--btn-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60",
+  /** Возврат на хаб-портал — pill с blur, как в шапке редполитики */
+  portalBackLink:
+    "inline-flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--surface)]/80 px-4 py-2 text-sm font-normal text-[var(--ink-muted)] backdrop-blur-md transition hover:border-[var(--border-strong)] hover:text-[var(--ink)]",
+  portalBackLinkVision:
+    "inline-flex items-center gap-2 rounded-full border border-[var(--vision-border)] bg-white/[0.06] px-4 py-2 text-sm font-normal text-white/65 backdrop-blur-md transition hover:border-[var(--vision-border-strong)] hover:text-white/95",
 } as const;

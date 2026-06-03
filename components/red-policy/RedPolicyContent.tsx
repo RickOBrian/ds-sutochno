@@ -1,5 +1,6 @@
 "use client";
 
+import { onTint } from "@/lib/on-surface-text";
 import type { RedPolicyBlock } from "@/types/red-policy";
 import { CalloutBlock } from "./CalloutBlock";
 import { DoDontBlock } from "./DoDontBlock";
@@ -13,7 +14,7 @@ interface RedPolicyContentProps {
 
 function ProseParagraph({ text }: { text: string }) {
   return (
-    <p className="text-pretty text-sm font-light leading-relaxed text-[var(--ink-muted)] sm:text-[0.9375rem] whitespace-pre-line">
+    <p className="text-pretty text-sm font-normal leading-[1.7] text-[var(--rp-prose)] sm:text-[0.9375rem] whitespace-pre-line">
       {text}
     </p>
   );
@@ -23,9 +24,9 @@ function ProseList({ items, ordered }: { items: string[]; ordered?: boolean }) {
   const Tag = ordered ? "ol" : "ul";
   return (
     <Tag
-      className={`space-y-2 pl-5 text-pretty text-sm font-light leading-relaxed text-[var(--ink-muted)] sm:text-[0.9375rem] ${
+      className={`space-y-2 pl-5 text-pretty text-sm font-normal leading-[1.7] text-[var(--rp-prose)] sm:text-[0.9375rem] ${
         ordered ? "list-decimal" : "list-disc"
-      } marker:text-[var(--ink-faint)]`}
+      } marker:text-[var(--rp-prose-meta)]`}
     >
       {items.map((item, i) => (
         <li key={i} className="whitespace-pre-line">
@@ -38,7 +39,9 @@ function ProseList({ items, ordered }: { items: string[]; ordered?: boolean }) {
 
 function ProseQuote({ text }: { text: string }) {
   return (
-    <blockquote className="text-pretty rounded-2xl border-l-4 border-[var(--lime-deep)] bg-[var(--surface-muted)]/50 py-1 pl-5 text-sm font-light italic leading-relaxed text-[var(--ink)]">
+    <blockquote
+      className={`${onTint.surface} text-pretty rounded-2xl border-l-4 border-[var(--lime-deep)] bg-[var(--lime)]/12 py-1 pl-5 text-sm font-normal italic leading-[1.7] dark:bg-[var(--lime)]/8 ${onTint.fg}`}
+    >
       {text}
     </blockquote>
   );
